@@ -8,10 +8,11 @@ import {
 import { useAsyncEffect } from 'ahooks';
 import { ImageWatermark } from './imageWaterMark';
 import { AnchoredText } from './anchorText';
+import { UserProfile } from './user-profile/userProfile';
 
 
 // K线数据类型定义
-type KlineData = {
+export type KlineData = {
   time: number | string;
   open: number;
   high: number;
@@ -24,13 +25,13 @@ const KlineChart: React.FC = () => {
 
   useAsyncEffect(async () => {
     const chartOptions = {
-      layout: {
-        textColor: 'white',
-        background: {
-          type: 'solid',
-          color: 'black'
-        }
-      },
+      // layout: {
+      //   textColor: 'white',
+      //   background: {
+      //     type: 'solid',
+      //     color: 'black'
+      //   }
+      // },
       timeScale: {
         useMediaCoordinateSpace: true, // 启用媒体坐标空间
       },
@@ -49,13 +50,34 @@ const KlineChart: React.FC = () => {
     const response = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100');
     const klines = await response.json();
 
-    const formattedData: KlineData[] = klines.map((kline: any[]) => ({
+    const formattedData: KlineData[] = klines.slice(0, 50).map((kline: any[]) => ({
       time: new Date(kline[0]).getTime() / 1000 as UTCTimestamp, // 转换为秒
       open: parseFloat(kline[1]),
       high: parseFloat(kline[2]),
       low: parseFloat(kline[3]),
       close: parseFloat(kline[4])
     }));
+
+    console.log("candlestickSeries: ", candlestickSeries)
+
+    candlestickSeries.setData(formattedData as any);
+
+    const userProfile = new UserProfile({
+      chart: chart,
+      series: candlestickSeries,
+      data: formattedData,
+      vertAlign: 'middle',
+      horzAlign: 'middle',
+      text: 'Anchored Text',
+      lineHeight: 54,
+      font: 'italic bold 54px Arial',
+      color: 'red',
+    });
+
+    candlestickSeries.attachPrimitive(userProfile);
+
+    // 创建图片标记插件
+    chart.timeScale().fitContent();
 
     // 定义标记数据
     // const createMarkers = (): any => {
@@ -105,23 +127,6 @@ const KlineChart: React.FC = () => {
 
     //   }
     // })
-
-    const anchoredText = new AnchoredText({
-      vertAlign: 'middle',
-      horzAlign: 'middle',
-      text: 'Anchored Text',
-      lineHeight: 54,
-      font: 'italic bold 54px Arial',
-      color: 'red',
-    });
-
-    console.log("candlestickSeries: ", candlestickSeries)
-
-    candlestickSeries.setData(formattedData as any);
-
-    candlestickSeries.attachPrimitive(anchoredText);
-    // 创建图片标记插件
-    chart.timeScale().fitContent();
   }, [])
 
   return (
