@@ -42,24 +42,78 @@ class UserProfileRenderer implements IPrimitivePaneRenderer {
     }
 
     draw(target: CanvasRenderingTarget2D) {
-        target.useMediaCoordinateSpace(scope => {
+        target.useBitmapCoordinateSpace(scope => {
             const ctx = scope.context;
-            const data = this._data;
+        	ctx.scale(scope.horizontalPixelRatio, scope.verticalPixelRatio);
+            // const data = this._data;
             const imgElement = new Image();
             imgElement.src = 'https://web.dev/images/authors/katiehempenius.jpg?hl=zh-cn';
+
+            const { chart, series } = this._data
+            const timeScale = chart.timeScale();
+            const x = (timeScale.timeToCoordinate(this._x) || -100)  * scope.horizontalPixelRatio;
+            const y = (series.priceToCoordinate(this._y) || -100) * scope.verticalPixelRatio;
+            
+            // console.log("xy: ", this._x, this._y, data)
+            // console.log("scope: ", scope)
+            const xScaled = Math.round(this._x * scope.horizontalPixelRatio);
+        	const yScaled = Math.round(this._y * scope.verticalPixelRatio);
 
             imgElement.onload = () => {
                 // const imageHeight = imgElement?.naturalHeight ?? 1;
                 // const imageWidth = imgElement?.naturalWidth ?? 1;
                 ctx.drawImage(
                     imgElement,
-                    this._x,
-                    this._y,
+                    x,
+                    y,
+                    // xScaled,
+                    // yScaled,
                     50,
                     50
                 );
             };
-        });
+        })
+
+        // target.useBitmapCoordinateSpace(scope => {
+        //     const { chart, series } = this._data
+        //     const timeScale = chart.timeScale();
+        //     const x = timeScale.timeToCoordinate(this._x);
+        //     const y = series.priceToCoordinate(this._y);
+
+        //     const ctx = scope.context;
+        //     const yTop = 0;
+        //     const height = scope.bitmapSize.height;
+        //     const halfWidth =
+        //         (scope.horizontalPixelRatio * 6) / 2;
+        //     const cutOff = -1 * (halfWidth + 1);
+        //     const maxX = scope.bitmapSize.width;
+
+        //     const xScaled = this._x * scope.horizontalPixelRatio;
+        //     if (xScaled < cutOff) return;
+        //     ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+        //     const x1 = Math.max(0, Math.round(xScaled - halfWidth));
+        //     const x2 = Math.min(maxX, Math.round(xScaled + halfWidth));
+        //     ctx.fillRect(x1, yTop, x2 - x1, height);
+        // });
+        // target.useMediaCoordinateSpace(scope => {
+        //     const ctx = scope.context;
+        //     const data = this._data;
+        //     const imgElement = new Image();
+        //     imgElement.src = 'https://web.dev/images/authors/katiehempenius.jpg?hl=zh-cn';
+
+        //     console.log("xy: ", this._x, this._y, data)
+        //     imgElement.onload = () => {
+        //         // const imageHeight = imgElement?.naturalHeight ?? 1;
+        //         // const imageWidth = imgElement?.naturalWidth ?? 1;
+        //         ctx.drawImage(
+        //             imgElement,
+        //             this._x,
+        //             this._y,
+        //             50,
+        //             50
+        //         );
+        //     };
+        // });
     }
 }
 
@@ -74,7 +128,9 @@ class UserProfilePaneView implements IPrimitivePaneView {
         this._y = posY;
     }
 
-    update() { }
+    update() {
+
+    }
     renderer() {
         return new UserProfileRenderer(this._source._data, this._x, this._y);
     }
@@ -95,10 +151,8 @@ export class UserProfile implements ISeriesPrimitive<Time> {
         const { chart, series, data } = this._data;
 
         this._paneViews = data.map(({ time, high }) => {
-            const timeScale = chart.timeScale();
-            const x = timeScale.timeToCoordinate(time);
-            const y = series.priceToCoordinate(high);
-            return new UserProfilePaneView(this, x, y)
+            console.log("time: ", time, high)
+            return new UserProfilePaneView(this, time, high)
         })
     }
 

@@ -32,9 +32,9 @@ const KlineChart: React.FC = () => {
       //     color: 'black'
       //   }
       // },
-      timeScale: {
-        useMediaCoordinateSpace: true, // 启用媒体坐标空间
-      },
+      // timeScale: {
+      //   useMediaCoordinateSpace: true, // 启用媒体坐标空间
+      // },
     };
     const chart = createChart('container', chartOptions as any);
 
@@ -50,7 +50,7 @@ const KlineChart: React.FC = () => {
     const response = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=100');
     const klines = await response.json();
 
-    const formattedData: KlineData[] = klines.slice(0, 50).map((kline: any[]) => ({
+    const formattedData: KlineData[] = klines.slice(0, 100).map((kline: any[]) => ({
       time: new Date(kline[0]).getTime() / 1000 as UTCTimestamp, // 转换为秒
       open: parseFloat(kline[1]),
       high: parseFloat(kline[2]),
