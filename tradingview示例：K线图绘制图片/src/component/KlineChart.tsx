@@ -6,7 +6,8 @@ import {
   UTCTimestamp
 } from 'lightweight-charts';
 import { useAsyncEffect } from 'ahooks';
-import { ImageWatermark } from './plugin';
+import { ImageWatermark } from './imageWaterMark';
+import { AnchoredText } from './anchorText';
 
 
 // K线数据类型定义
@@ -93,24 +94,22 @@ const KlineChart: React.FC = () => {
 
     //   }
     // })
-    const watermark = new ImageWatermark('https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png', {
-      maxHeight: 1100,
-      maxWidth: 400,
-      padding: 50,
-      alpha: 0.4,
+
+    const anchoredText = new AnchoredText({
+      vertAlign: 'middle',
+      horzAlign: 'middle',
+      text: 'Anchored Text',
+      lineHeight: 54,
+      font: 'italic bold 54px Arial',
+      color: 'red',
     });
 
-
     console.log("candlestickSeries: ", candlestickSeries)
-    // createSeriesMarkers(candlestickSeries, markers as any)
 
     candlestickSeries.setData(formattedData as any);
 
-    candlestickSeries.attachPrimitive(watermark);
-
-    console.log("chart: ", chart, candlestickSeries)
+    candlestickSeries.attachPrimitive(anchoredText);
     // 创建图片标记插件
-
     chart.timeScale().fitContent();
   }, [])
 
