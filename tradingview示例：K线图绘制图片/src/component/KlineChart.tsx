@@ -23,7 +23,18 @@ const KlineChart: React.FC = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 
   useAsyncEffect(async () => {
-    const chartOptions = { layout: { textColor: 'white', background: { type: 'solid', color: 'black' } } };
+    const chartOptions = {
+      layout: {
+        textColor: 'white',
+        background: {
+          type: 'solid',
+          color: 'black'
+        }
+      },
+      timeScale: {
+        useMediaCoordinateSpace: true, // 启用媒体坐标空间
+      },
+    };
     const chart = createChart('container', chartOptions as any);
 
     const candlestickSeries = chart.addSeries(CandlestickSeries,
