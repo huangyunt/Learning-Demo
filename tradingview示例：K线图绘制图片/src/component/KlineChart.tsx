@@ -20,6 +20,13 @@ export type KlineData = {
   close: number;
 };
 
+const sleep = (time: number) => {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      res('success')
+    }, time)
+  })
+}
 const KlineChart: React.FC = () => {
   const chartContainerRef = useRef<HTMLDivElement>(null);
 

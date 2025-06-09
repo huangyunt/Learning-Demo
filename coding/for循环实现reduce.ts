@@ -1,0 +1,1 @@
+// for 循环实现 reduce
