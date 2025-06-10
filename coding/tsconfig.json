@@ -1,0 +1,59 @@
+{
+  "compilerOptions": {
+    /* 基本选项 */
+    "target": "es5", // 生成代码的 ECMAScript 目标版本
+    "module": "commonjs", // 生成代码的模块标准
+    "lib": ["es6", "dom"], // 告诉 TypeScript 编译器要包括哪些环境的类型声明文件（`.d.ts` 文件）
+    "allowJs": true, // 是否编译 JS 文件
+    "checkJs": true, // 是否在 JS 文件中报告错误
+    "jsx": "preserve", // 在 .tsx 文件里支持 JSX: 'preserve', 'react-native', or 'react'
+    "declaration": true, // 是否生成 .d.ts 类型定义文件
+    "emitDeclarationOnly": true, // 只生成类型声明文件，不生成js
+    "declarationMap": true, // 为每个 .d.ts 文件生成 sourcemap
+    "outDir": "./dist", // 输出文件夹
+    "rootDir": "./", // 指定 TypeScript 编译器查找 TypeScript 文件的根目录，通常用于控制输入文件的搜索路径。假设你的 TypeScript 文件存储在项目的根目录下，你可以配置为 './'
+    "composite": true, // 生成额外的元数据文件，这些文件可以帮助构建工具（包括TypeScript自身的--build模式）更快地确定项目是否已经被构建。
+    "removeComments": true, // 删除注释
+    "noEmit": true, // 不输出文件
+    "importHelpers": true, // 通过 tslib 引入辅助工具函数
+    "downlevelIteration": true, // 是否添加对迭代器和生成器的补丁（es6+无需关注）
+    "useDefineForClassFields": true, // 是否使用 Object.defineProperty 定义类实例属性
+
+    /* 严格的类型检查 */
+    "strict": true, // 启用所有严格类型检查
+    "noImplicitAny": true, // 不允许隐式的 any 类型
+    "strictNullChecks": true, // 不允许把 null、undefined 赋值给其他类型变量
+    "strictFunctionTypes": true, // 严格检查函数的类型
+    "strictBindCallApply": true, // 严格检查 bind、call 和 apply 的参数规则
+    "strictPropertyInitialization": true, // 类的实例属性必须初始化
+    "noImplicitThis": true, // 不允许 this 有隐式的 any类型
+    "noUnusedLocals": true, // 检查未使用的局部变量
+    "noUnusedParameters": true, // 检查未使用的参数
+    "noImplicitReturns": true, // 每个分支都会有返回值
+    "noFallthroughCasesInSwitch": true, // 检查 switch 语句包含正确的 break
+
+    /* 模块解析 */
+    "moduleResolution": "node", // 模块解析策略
+    "allowImportingTsExtensions": true, // 允许在导入 TypeScript 文件时指定文件扩展名（如 `.ts`, `.tsx`），当导入路径需要显式包含文件扩展名时，确保兼容性
+    "baseUrl": "./", // 解析使用非相对路径导入模块时的基地址
+    "paths": {}, // 模块名称到基于 baseUrl 的路径映射表
+    "rootDirs": ["./"], // 将多个文件夹放在一个虚拟目录下，合并多个源文件目录
+    "typeRoots": ["./"], // typeRoots用来指定声明文件或文件夹的路径列表，如果指定了此项，则只有在这里列出的声明文件才会被加载
+    "types": ["./"], // types用来指定需要包含的模块，只有在这里列出的模块的声明文件才会被加载进来
+    "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块默认导入
+    "esModuleInterop": true, // 通过创建命名空间实现 CommonJS 兼容性
+    "resolveJsonModule": true, // 自动解析JSON文件
+
+    /* Source Map */
+    "sourceRoot": "", // TypeScript 源代码所在的目录
+    "mapRoot": "", // mapRoot用于指定调试器找到映射文件而非生成文件的位置，指定map文件的根路径，该选项会影响.map文件中的sources属性
+
+    /* 实验性 */
+    "experimentalDecorators": true, // 启用实验性的装饰器特性
+    "emitDecoratorMetadata": true // 为装饰器提供元数据支持
+  },
+  "include": [], // include也可以指定要编译的路径列表,但是和files的区别在于,这里的路径可以是文件夹,也可以是文件,可以使用相对和绝对路径,而且可以使用通配符,比如"./src"即表示要编译src文件夹下的所有文件以及子文件夹的文件
+  "exclude": [], // exclude表示要排除的、不编译的文件,它也可以指定一个列表,规则和include一样,可以是文件或文件夹,可以是相对路径或绝对路径,可以使用通配符
+  "compileOnSave": true, // compileOnSave的值是true或false,如果设为true,在我们编辑了项目中的文件保存的时候,编辑器会根据tsconfig.json中的配置重新生成文件,不过这个要编辑器支持
+  "references": [] // 一个对象数组,指定要引用的项目
+}
