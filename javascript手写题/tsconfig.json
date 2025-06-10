@@ -10,8 +10,8 @@
     "declaration": true, // 是否生成 .d.ts 类型定义文件
     "emitDeclarationOnly": true, // 只生成类型声明文件，不生成js
     "declarationMap": true, // 为每个 .d.ts 文件生成 sourcemap
-    "outDir": "./dist", // 输出文件夹
-    "rootDir": "./", // 指定 TypeScript 编译器查找 TypeScript 文件的根目录，通常用于控制输入文件的搜索路径。假设你的 TypeScript 文件存储在项目的根目录下，你可以配置为 './'
+    "outDir": "dist", // 输出文件夹
+    "rootDir": "", // 指定 TypeScript 编译器查找 TypeScript 文件的根目录，通常用于控制输入文件的搜索路径。假设你的 TypeScript 文件存储在项目的根目录下，你可以配置为 './'
     "composite": true, // 生成额外的元数据文件，这些文件可以帮助构建工具（包括TypeScript自身的--build模式）更快地确定项目是否已经被构建。
     "removeComments": true, // 删除注释
     "noEmit": true, // 不输出文件
@@ -35,10 +35,10 @@
     /* 模块解析 */
     "moduleResolution": "node", // 模块解析策略
     "allowImportingTsExtensions": true, // 允许在导入 TypeScript 文件时指定文件扩展名（如 `.ts`, `.tsx`），当导入路径需要显式包含文件扩展名时，确保兼容性
-    "baseUrl": "./", // 解析使用非相对路径导入模块时的基地址
+    "baseUrl": "", // 解析使用非相对路径导入模块时的基地址
     "paths": {}, // 模块名称到基于 baseUrl 的路径映射表
-    "rootDirs": ["./"], // 将多个文件夹放在一个虚拟目录下，合并多个源文件目录
-    "typeRoots": ["./"], // typeRoots用来指定声明文件或文件夹的路径列表，如果指定了此项，则只有在这里列出的声明文件才会被加载
+    "rootDirs": [""], // 将多个文件夹放在一个虚拟目录下，合并多个源文件目录
+    "typeRoots": [""], // typeRoots用来指定声明文件或文件夹的路径列表，如果指定了此项，则只有在这里列出的声明文件才会被加载
     "types": ["./"], // types用来指定需要包含的模块，只有在这里列出的模块的声明文件才会被加载进来
     "allowSyntheticDefaultImports": true, // 允许从没有默认导出的模块默认导入
     "esModuleInterop": true, // 通过创建命名空间实现 CommonJS 兼容性
