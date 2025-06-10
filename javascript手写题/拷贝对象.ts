@@ -29,6 +29,7 @@ const deepCloneObject2 = (obj) => {
 
         }
         else if (typeof value === 'object') {
+            const clonedObj = map.get(value) ? map.get(value) : deepCloneObject2(value)
             newObj[key] = deepCloneObject2(value)
         }
         else {
