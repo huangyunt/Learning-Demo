@@ -7,3 +7,5 @@
 
 // 简单粗暴
 const shuffle = (list) => list.sort((x, y) => Math.random() - 0.5);
+
+// 还有一种思路是生成全排列，然后随机选其中一种排列
