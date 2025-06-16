@@ -9,3 +9,5 @@ _multiconfig.yml
 .deploy_git/
 .github/
 .env
+
+dist
