@@ -10,21 +10,21 @@
  */
 
 class myEventEmitter {
-    events = {}
+   private events = {}
 
-    emit(type, ...args) {
+    public emit(type, ...args) {
         const listeners = this.events[type]
         for (const listener of listeners) {
             listener(...args)
         }
     }
 
-    on(type, listener) {
+    public on(type, listener) {
         this.events[type] = this.events[type] || []
         this.events[type].push(listener)
     }
 
-    once(type, listener) {
+    public once(type, listener) {
         const callback = (...args) => {
             this.off(type, callback)
             listener(...args)
@@ -32,7 +32,7 @@ class myEventEmitter {
         this.on(type, callback)
     }
 
-    off(type, listener) {
+    public off(type, listener) {
         this.events[type] = this.events[type] || []
         this.events[type] = this.events[type].filter(callback => callback !== listener)
     }

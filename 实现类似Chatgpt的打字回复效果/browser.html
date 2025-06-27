@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fetchSSE Demo</title>
+</head>
+
+<body>
+  <h1>fetchSSE Demo</h1>
+  <button onclick="connectFetch()">建立 fetchSSE 连接</button>
+  <button onclick="closeSSE()">断开 fetchSSE 连接</button>
+  <br />
+  <br />
+  <div id="message"></div>
+
+  <script>
+    const messageElement = document.getElementById('message')
+    let controller
+
+    // 建立 FETCH-SSE 连接
+    const connectFetch = () => {
+      controller = new AbortController()
+      fetchEventSource('http://127.0.0.1:3001/fetch-sse', {
+        method: 'POST',
+        body: JSON.stringify({
+          content: 'xxx'
+        }),
+        signal: controller.signal,
+        onopen: () => {
+          messageElement.innerHTML += `FETCH 连接成功<br />`
+        },
+        onclose: () => {
+          messageElement.innerHTML += `FETCH 连接关闭<br />`
+        },
+        onmessage: (event) => {
+          const data = JSON.parse(event)
+          messageElement.innerHTML += `${data.id} --- ${data.time} --- body参数：${JSON.stringify(data.body)}` + '<br />'
+        },
+        onerror: (e) => {
+          console.log(e)
+        }
+      })
+    }
+
+    // 断开 FETCH-SSE 连接
+    const closeSSE = () => {
+      if (controller) {
+        controller.abort()
+        controller = undefined
+        messageElement.innerHTML += `FETCH 连接关闭<br />`
+      }
+    }
+
+
+    const fetchEventSource = (url, options) => {
+      fetch(url, options)
+        .then(response => {
+          if (response.status === 200) {
+            options.onopen && options.onopen()
+            return response.body
+          }
+        })
+        .then(rb => {
+          const reader = rb.getReader()
+          const push = () => {
+            // done 为数据流是否接收完成，boolean
+            // value 为返回数据，Uint8Array
+            return reader.read().then(({ done, value }) => {
+              if (done) {
+                options.onclose && options.onclose()
+                return
+              }
+              options.onmessage && options.onmessage(new TextDecoder().decode(value))
+              // 持续读取流信息
+              return push()
+            })
+          }
+          // 开始读取流信息
+          return push()
+        })
+        .catch((e) => {
+          options.error && options.error(e)
+        })
+    }
+  </script>
+
+</html>

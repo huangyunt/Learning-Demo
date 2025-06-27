@@ -10,7 +10,7 @@ module.exports = {
         splitChunks: {
             cacheGroups: {
                 vendors: {
-                    chunks: 'async', // 这里是我们修改的地方，async|initial|all
+                    chunks: 'all', // 这里是我们修改的地方，async|initial|all
                     test: /[\\/]node_modules[\\/]/
                 }
             }
