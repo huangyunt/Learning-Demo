@@ -42,11 +42,12 @@ function restoreIpAddresses(s: string): string[] {
                     getAllIpAddress(str.slice(2), [...ipAddress, value2]);
                 }
 
-            } else {
+            }
+            if (str.length >= 3) {
                 if (String(Number(value2)).length === value2.length) {
                     getAllIpAddress(str.slice(2), [...ipAddress, value2]);
                 }
-                if (String(Number(value2)).length === value2.length && Number(value3) <= 255 && Number(value3) >= 0) {
+                if (String(Number(value3)).length === value3.length && Number(value3) <= 255 && Number(value3) >= 0) {
                     getAllIpAddress(str.slice(3), [...ipAddress, value3]);
                 }
             }
